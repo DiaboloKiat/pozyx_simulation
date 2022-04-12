@@ -1,0 +1,4 @@
+<launch>
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e36" args="15.0 -23.5 0.0 0 0 0 1 map uwb_anchor_0 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e33" args="35.0 -23.5 0 0 0 1 map uwb_anchor_1 100" />
+</launch>
