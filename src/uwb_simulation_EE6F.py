@@ -11,6 +11,7 @@ import rospy
 
 from pozyx_simulation.msg import  uwb_data
 from gazebo_msgs.msg import ModelStates
+from geometry_msgs.msg import PoseStamped
 import tf 
 
 import math
@@ -39,7 +40,7 @@ def get_anchors_pos():
     sensor_pos = []   
     uwb_id = 'uwb_anchor_'
     listener = tf.TransformListener()
-    
+    from geometry_msgs.msg import PoseStamped
     for i in range(max_anchor):
         try:
             time.sleep(0.3)
@@ -109,7 +110,7 @@ def publish_data(all_destination_id, all_distance):
     pub.publish(uwb_data_cell)
 
 
-def subscribe_data(ModelStates):
+def subscribe_data(PoseStamped):
     #for the get real position of robot subscribe model states topic  
     global robot_pose_x,robot_pose_y,robot_pose_z
     global counter
@@ -120,9 +121,9 @@ def subscribe_data(ModelStates):
         counter = 0 
 
         #ModelStates.pose[2] = turtlebot3 model real position on modelstates   
-        robot_pose_x =ModelStates.pose[MODELSTATE_INDEX].position.x*1000
-        robot_pose_y =ModelStates.pose[MODELSTATE_INDEX].position.y*1000
-        robot_pose_z =ModelStates.pose[MODELSTATE_INDEX].position.z*1000
+        robot_pose_x =PoseStamped.pose.position.x*1000
+        robot_pose_y =PoseStamped.pose.position.y*1000
+        robot_pose_z =PoseStamped.pose.position.z*1000
         
 
 if __name__ == "__main__":
@@ -130,15 +131,15 @@ if __name__ == "__main__":
     sensor_pos = []
     sensor_pos = get_anchors_pos()
 
-    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index', 1)
+    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',2)
     rospy.loginfo("%s is %s", rospy.resolve_name('/pozyx_simulation/modelstate_index'), MODELSTATE_INDEX)
 
 
     time.sleep(0.5)
 
     #get robot real position => you can change ModelStates.pose[] different robot's
-    rospy.Subscriber('gazebo/model_states', ModelStates, subscribe_data)
-    # rospy.Subscriber('robot/truth_map_posestamped', ModelStates, subscribe_data)
+    # rospy.Subscriber('gazebo/model_states', ModelStates, subscribe_data)
+    rospy.Subscriber('robot/truth_map_posestamped', PoseStamped, subscribe_data)
 
     #start the publish uwb data
     uwb_simulate(sensor_pos)
