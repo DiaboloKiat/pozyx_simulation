@@ -93,8 +93,6 @@ def uwb_simulate(sensor_pos):
         all_destination_id.append(0x6948)
         all_destination_id.append(0x694f)
         all_destination_id.append(0x694a)
-        # all_destination_id.append(0x6e36)
-        # all_destination_id.append(0x6e33)
             
         #publish data with ROS             
         publish_data(all_destination_id , all_distance)    
@@ -130,7 +128,7 @@ if __name__ == "__main__":
     sensor_pos = []
     sensor_pos = get_anchors_pos()
 
-    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index', 1)
+    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',2)
     rospy.loginfo("%s is %s", rospy.resolve_name('/pozyx_simulation/modelstate_index'), MODELSTATE_INDEX)
 
 
@@ -138,7 +136,6 @@ if __name__ == "__main__":
 
     #get robot real position => you can change ModelStates.pose[] different robot's
     rospy.Subscriber('gazebo/model_states', ModelStates, subscribe_data)
-    # rospy.Subscriber('robot/truth_map_posestamped', ModelStates, subscribe_data)
 
     #start the publish uwb data
     uwb_simulate(sensor_pos)

@@ -90,12 +90,12 @@ def uwb_simulate(sensor_pos):
             all_distance.append(dist) 
         
         #uwb_anchors_set.launch same order (not important for simulation)
-        all_destination_id.append(0x694b)
-        all_destination_id.append(0x6948)
-        all_destination_id.append(0x694f)
-        all_destination_id.append(0x694a)
-        # all_destination_id.append(0x6e36)
-        # all_destination_id.append(0x6e33)
+        # all_destination_id.append(0x694b)
+        # all_destination_id.append(0x6948)
+        # all_destination_id.append(0x694f)
+        # all_destination_id.append(0x694a)
+        all_destination_id.append(0x6e36)
+        all_destination_id.append(0x6e33)
             
         #publish data with ROS             
         publish_data(all_destination_id , all_distance)    
@@ -124,14 +124,16 @@ def subscribe_data(PoseStamped):
         robot_pose_x =PoseStamped.pose.position.x*1000
         robot_pose_y =PoseStamped.pose.position.y*1000
         robot_pose_z =PoseStamped.pose.position.z*1000
-        
+        # robot_pose_x =ModelStates.pose[MODELSTATE_INDEX].position.x*1000
+        # robot_pose_y =ModelStates.pose[MODELSTATE_INDEX].position.y*1000
+        # robot_pose_z =ModelStates.pose[MODELSTATE_INDEX].position.z*1000
 
 if __name__ == "__main__":
     #get uwb anchors postion
     sensor_pos = []
     sensor_pos = get_anchors_pos()
 
-    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',2)
+    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',10)
     rospy.loginfo("%s is %s", rospy.resolve_name('/pozyx_simulation/modelstate_index'), MODELSTATE_INDEX)
 
 
