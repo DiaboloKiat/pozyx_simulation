@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
-'''
-__author__ = "Bekir Bostanci"
-__license__ = "BSD"
-__version__ = "0.0.1"
-__maintainer__ = "Bekir Bostanci"
-__email__ = "bekirbostanci@gmail.com"
-'''
 
 import rospy
+import tf 
+import math
+import numpy as np
+import time
+import threading
+import os
+import sys
+import random
 
 from pozyx_simulation.msg import  uwb_data
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import PoseStamped
-import tf 
-
-import math
-import numpy as np
-
-import time
-import threading
-import os, sys
-import random
-
 
 global robot_pose_x,robot_pose_y,robot_pose_z
 robot_pose_x =0
@@ -30,6 +21,10 @@ robot_pose_z =0
 
 global counter
 counter = 0 
+
+
+
+
 
 rospy.init_node('uwb_simulation', anonymous=True)
 #distances are publishing with uwb_data_topic

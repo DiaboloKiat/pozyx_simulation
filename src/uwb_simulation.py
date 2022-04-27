@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 '''
 __author__ = "Bekir Bostanci"
 __license__ = "BSD"
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     sensor_pos = []
     sensor_pos = get_anchors_pos()
 
-    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',2)
+    MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index', 2)
     rospy.loginfo("%s is %s", rospy.resolve_name('/pozyx_simulation/modelstate_index'), MODELSTATE_INDEX)
 
 
