@@ -27,14 +27,14 @@ class uwb_ranging(object):
         self.sensor_pos = []
         self.sensor_pos = self.get_anchors_pos()
 
-        self.MODELSTATE_INDEX = rospy.get_param('/pozyx_simulation/modelstate_index',2)
-        rospy.loginfo("%s is %s", rospy.resolve_name('/pozyx_simulation/modelstate_index'), self.MODELSTATE_INDEX)
+        self.MODELSTATE_INDEX = int(rospy.get_param("~modelstate_index"))
+        rospy.loginfo("%s is %s", rospy.resolve_name('modelstate_index'), self.MODELSTATE_INDEX)
 
         #distances are publishing with uwb_data_distance
-        self.pub_uwb_distance = rospy.Publisher('uwb_data_distance', uwb_data, queue_size=1)
+        self.pub_uwb_distance = rospy.Publisher('uwb_data_distance', uwb_data, queue_size=10)
 
         #get robot real position => you can change ModelStates.pose[] different robot's
-        rospy.Subscriber('gazebo/model_states', ModelStates, self.subscribe_data, queue_size=1)
+        rospy.Subscriber('/gazebo/model_states', ModelStates, self.subscribe_data, queue_size=10)
 
         #start the publish uwb data
         self.uwb_simulate(self.sensor_pos)
@@ -117,6 +117,7 @@ class uwb_ranging(object):
         uwb_data_cell.destination_id=all_destination_id
         uwb_data_cell.stamp = [rospy.Time.now(),rospy.Time.now(),rospy.Time.now()]
         uwb_data_cell.distance = all_distance
+        print("UWB Anchor List: " + str(all_destination_id) + "\n\nDistance: " + str(all_distance) + "\n\n")
         self.pub_uwb_distance.publish(uwb_data_cell)
 
 

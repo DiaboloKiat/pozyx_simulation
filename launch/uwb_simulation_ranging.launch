@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="veh" doc="please specify veh"/>
+    
+    <node ns="$(arg veh)" pkg="pozyx_simulation" name="uwb_ranging"  type="uwb_simulation_ranging.py" output="screen">
+        <param name="modelstate_index" value="2" />
+    </node>
+</launch>
