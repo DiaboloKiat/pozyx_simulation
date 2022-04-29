@@ -94,6 +94,8 @@ class uwb_ranging(object):
                 else:
                     all_distance.append(dist)
 
+                # all_distance.append(dist)
+
 
             #uwb_anchors_set.launch same order (not important for simulation)
             all_destination_id.append(0x6e31)
