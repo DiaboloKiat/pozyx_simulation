@@ -32,6 +32,7 @@ class uwb_ranging(object):
 
         #distances are publishing with uwb_data_distance
         self.pub_uwb_distance = rospy.Publisher('uwb_data_distance', uwb_data, queue_size=10)
+        # self.pub_uwb_distance_ = rospy.Publisher('uwb_data_distance_', uwb_data, queue_size=10)
 
         #get robot real position => you can change ModelStates.pose[] different robot's
         rospy.Subscriber('/gazebo/model_states', ModelStates, self.subscribe_data, queue_size=10)
@@ -79,21 +80,42 @@ class uwb_ranging(object):
         uwb_dist=uwb_dist+np.random.normal(0, uwb_dist*0.015,1)  
         return np.sqrt(uwb_dist)
 
+    # def calculate_distance_(self, uwb_pose):
+    #     #pose comes in gazebo/model_states (real position)
+    #     robot_pose = [self.robot_pose_x + 5,self.robot_pose_y,self.robot_pose_z]
+
+    #     #describe 2 points
+    #     p1 = np.array(uwb_pose)
+    #     p2 = np.array(robot_pose)
+
+    #     #difference between robot and uwb distance
+    #     uwb_dist = np.sum((p1-p2)**2, axis=0)
+
+    #     #add noise 
+    #     uwb_dist=uwb_dist+np.random.normal(0, uwb_dist*0.015,1)  
+    #     return np.sqrt(uwb_dist)
+
     def uwb_simulate(self, sensor_pos):
 
         while not rospy.is_shutdown():
             time.sleep(0.1)
             all_distance = [] 
+            # all_distance_ = [] 
             all_destination_id = []
             
             for i in range(len(sensor_pos)):
                 #calculate distance uwb to robot for all anchors 
                 dist = self.calculate_distance(sensor_pos[i])
+                # dist_ = self.calculate_distance_(sensor_pos[i])
                 if dist >= 30000:
                     all_distance.append(np.nan)
                 else:
                     all_distance.append(dist)
 
+                # if dist_ >= 30000:
+                #     all_distance_.append(np.nan)
+                # else:
+                #     all_distance_.append(dist_)
 
             #uwb_anchors_set.launch same order (not important for simulation)
             all_destination_id.append(0x6e31)
@@ -102,7 +124,8 @@ class uwb_ranging(object):
             all_destination_id.append(0x6e34)
                 
             #publish data with ROS             
-            self.publish_data(all_destination_id , all_distance)    
+            self.publish_data(all_destination_id , all_distance)
+            # self.publish_data_(all_destination_id , all_distance)    
 
 
     def publish_data(self, all_destination_id, all_distance):
@@ -114,6 +137,14 @@ class uwb_ranging(object):
         print("UWB Anchor List: " + str(all_destination_id) + "\n\nDistance: " + str(all_distance) + "\n\n")
         self.pub_uwb_distance.publish(uwb_data_cell)
 
+    # def publish_data_(self, all_destination_id, all_distance):
+    #     #uwb message type is a special message so that firstly describe this message 
+    #     uwb_data_cell = uwb_data()
+    #     uwb_data_cell.destination_id=all_destination_id
+    #     uwb_data_cell.stamp = [rospy.Time.now(),rospy.Time.now(),rospy.Time.now()]
+    #     uwb_data_cell.distance = all_distance
+    #     # print("UWB Anchor List: " + str(all_destination_id) + "\n\nDistance: " + str(all_distance) + "\n\n")
+    #     self.pub_uwb_distance_.publish(uwb_data_cell)
 
     def subscribe_data(self, ModelStates):
         self.counter = self.counter +1 

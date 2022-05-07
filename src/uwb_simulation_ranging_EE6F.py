@@ -76,7 +76,7 @@ class uwb_ranging(object):
         uwb_dist = np.sum((p1-p2)**2, axis=0)
 
         #add noise 
-        uwb_dist=uwb_dist+np.random.normal(0, uwb_dist*0.005,1)  
+        uwb_dist = uwb_dist + np.random.normal(0, uwb_dist*0.005,1)  
         return np.sqrt(uwb_dist)
 
     def uwb_simulate(self, sensor_pos):
@@ -124,16 +124,16 @@ class uwb_ranging(object):
 
 
     def subscribe_data(self, ModelStates):
-        self.counter = self.counter +1 
+        self.counter = self.counter + 1 
 
-        #gazebo/modelstate topic frequency is 100 hz. We descrese 10 hz with log method 
-        if self.counter %100 ==  0:  
+        # gazebo/modelstate topic frequency is 100 hz. We descrese 10 hz with log method 
+        if self.counter % 100 ==  0:  
             self.counter = 0 
 
-            #ModelStates.pose[2] = turtlebot3 model real position on modelstates   
-            self.robot_pose_x =ModelStates.pose[self.MODELSTATE_INDEX].position.x*1000
-            self.robot_pose_y =ModelStates.pose[self.MODELSTATE_INDEX].position.y*1000
-            self.robot_pose_z =ModelStates.pose[self.MODELSTATE_INDEX].position.z*1000
+            # ModelStates.pose[2] = turtlebot3 model real position on modelstates   
+            self.robot_pose_x = ModelStates.pose[self.MODELSTATE_INDEX].position.x*1000
+            self.robot_pose_y = ModelStates.pose[self.MODELSTATE_INDEX].position.y*1000
+            self.robot_pose_z = ModelStates.pose[self.MODELSTATE_INDEX].position.z*1000
         
 
 if __name__ == "__main__":
