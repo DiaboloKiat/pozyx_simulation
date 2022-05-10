@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <launch>
     <arg name="veh" doc="please specify veh"/>
-    <arg name="world" doc="please specify world"/>
+    <arg name="world" doc="please specify world, world type [EE6F_two_points, EE6F_three_points, EE6F_four_points, square and error]"/>
     
     <node ns="$(arg veh)" pkg="pozyx_simulation" name="uwb_ranging"  type="uwb_simulation_ranging_$(arg world).py" output="screen">
         <param name="modelstate_index" value="2" />

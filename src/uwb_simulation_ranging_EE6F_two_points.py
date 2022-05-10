@@ -76,7 +76,7 @@ class uwb_ranging(object):
         uwb_dist = np.sum((p1-p2)**2, axis=0)
 
         #add noise 
-        uwb_dist = uwb_dist + np.random.normal(0, uwb_dist*0.005,1)  
+        uwb_dist = uwb_dist + np.random.normal(0, uwb_dist*0.01,1)  
         return np.sqrt(uwb_dist)
 
     def uwb_simulate(self, sensor_pos):
