@@ -1,6 +1,11 @@
-<launch>
-   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e36" args="-550.0 233.0 0.0 0 0 0 1 map uwb_anchor_0 100" />
-   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e33" args="-556.0 233.0 0.0 0 0 0 1 map uwb_anchor_1 100" />
-   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e49" args="-550.0 215.0 0.0 0 0 0 1 map uwb_anchor_2 100" />   
-   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e30" args="-556.0 215.0 0.0 0 0 0 1 map uwb_anchor_3 100" />
+<launch>   
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e30" args="-550.0 233.0 0.0 0 0 0 1 map uwb_anchor_0 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e31" args="-556.0 215.0 0.0 0 0 0 1 map uwb_anchor_1 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e32" args="-556.0 233.0 0.0 0 0 0 1 map uwb_anchor_2 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e33" args="-550.0 215.0 0.0 0 0 0 1 map uwb_anchor_3 100" />
+
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e34" args="-444.0 215.0 0.0 0 0 0 1 map uwb_anchor_4 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e35" args="-444.0 233.0 0.0 0 0 0 1 map uwb_anchor_5 100" />   
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e36" args="-450.0 233.0 0.0 0 0 0 1 map uwb_anchor_6 100" />
+   <node pkg="tf" type="static_transform_publisher" name="uwb_anchor_0x6e37" args="-450.0 215.0 0.0 0 0 0 1 map uwb_anchor_7 100" />
 </launch>
