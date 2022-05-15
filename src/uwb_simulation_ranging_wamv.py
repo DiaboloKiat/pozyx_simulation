@@ -13,6 +13,7 @@ import random
 from pozyx_simulation.msg import  uwb_data
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import PoseStamped
+from visualization_msgs.msg import Marker, MarkerArray
 
 
 class uwb_ranging(object):
@@ -37,8 +38,34 @@ class uwb_ranging(object):
         #get robot real position => you can change ModelStates.pose[] different robot's
         rospy.Subscriber('/gazebo/model_states', ModelStates, self.subscribe_data, queue_size=10)
 
+        self.pub_points = rospy.Publisher("visualization_marker_anchor", MarkerArray, queue_size=1)
+        self.Markers = MarkerArray()
+        self.Markers.markers = []
+
         #start the publish uwb data
         self.uwb_simulate(self.sensor_pos)
+
+    def get_marker(self):
+        i = 1
+        for pt in self.sensor_pos:
+            self.marker = Marker()
+            self.marker.header.stamp = rospy.Time.now()
+            self.marker.header.frame_id = 'map'
+            self.marker.type = self.marker.CUBE
+            self.marker.action = self.marker.ADD
+            self.marker.pose.orientation.w = 1
+            self.marker.pose.position.x = pt[0] / 1000
+            self.marker.pose.position.y = pt[1] / 1000
+            self.marker.id = i
+            i = i+1
+            self.marker.scale.x = 0.25
+            self.marker.scale.y = 0.25
+            self.marker.scale.z = 0.25
+            self.marker.color.a = 1.0
+            self.marker.color.r = 1
+            self.marker.color.g = 0
+            self.marker.color.b = 0
+            self.Markers.markers.append(self.marker)
 
     def get_anchors_pos(self):
         max_anchor = 100 
@@ -98,6 +125,7 @@ class uwb_ranging(object):
     def uwb_simulate(self, sensor_pos):
 
         while not rospy.is_shutdown():
+            self.get_marker()
             time.sleep(0.1)
             all_distance = [] 
             # all_distance_ = [] 
@@ -129,6 +157,7 @@ class uwb_ranging(object):
                 
             #publish data with ROS             
             self.publish_data(all_destination_id , all_distance)
+            self.pub_points.publish(self.Markers)
             # self.publish_data_(all_destination_id , all_distance)    
 
 
