@@ -104,7 +104,7 @@ class uwb_ranging(object):
         uwb_dist = np.sum((p1-p2)**2, axis=0)
 
         #add noise 
-        uwb_dist=uwb_dist+np.random.normal(0, uwb_dist*0.015,1)  
+        uwb_dist=uwb_dist+np.random.normal(0, uwb_dist*0.01,1)  
         return np.sqrt(uwb_dist)
 
     # def calculate_distance_(self, uwb_pose):
@@ -148,8 +148,8 @@ class uwb_ranging(object):
             #uwb_anchors_set.launch same order (not important for simulation)
             all_destination_id.append(0x6e31)
             all_destination_id.append(0x6e32)
-            all_destination_id.append(0x6e33)
-            all_destination_id.append(0x6e34)
+            # all_destination_id.append(0x6e33)
+            # all_destination_id.append(0x6e34)
                 
             #publish data with ROS             
             self.publish_data(all_destination_id , all_distance)
